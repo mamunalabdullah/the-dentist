@@ -3,8 +3,8 @@ import './Footer.css';
 
 const Footer = () => {
     return (
-        <div>
-            <h1>footer area</h1>
+        <div className='text-center py-4 bg-dark text-white'>
+            <h5>Copyrights &copy; belongs to <span className='text-danger fst-italic fw-bold'>--Find The Dentist--</span> {new Date().getFullYear()}</h5>
         </div>
     );
 };
