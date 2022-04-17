@@ -1,0 +1,15 @@
+.slider{
+    padding: 100px 0;
+    background-color: #bdc3c7;
+}
+.slider img{
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+.text{
+    color: rgb(246, 246, 6);
+    font-size: 20px;
+    font-weight: 700;
+}
