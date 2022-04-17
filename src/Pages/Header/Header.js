@@ -10,18 +10,18 @@ const Header = () => {
             <Navbar className='navbar py-4 bg-info'>
                 <Container>
                     <Link className='logo' to="/home">Find The Dantist</Link>
-                    <Nav>
-                        <NavLink className={({isActive}) =>
-                        isActive ? "active-link" : "link"} to="/home">Home</NavLink>
-                        <NavLink className={({isActive}) =>
-                        isActive ? "active-link" : "link"} to="/about">About</NavLink>
-                        <NavLink className={({isActive}) =>
-                        isActive ? "active-link" : "link"} to="/blog">Blog</NavLink>
-                        <NavLink className={({isActive}) =>
-                        isActive ? "active-link" : "link"} to="/login">Login</NavLink>
-                        <NavLink className={({isActive}) =>
-                        isActive ? "active-link" : "link"} to="/register">Sign up</NavLink>
-                    </Nav>
+                        <Nav>
+                            <NavLink className={({isActive}) =>
+                            isActive ? "active-link" : "link"} to="/home">Home</NavLink>
+                            <NavLink className={({isActive}) =>
+                            isActive ? "active-link" : "link"} to="/about">About</NavLink>
+                            <NavLink className={({isActive}) =>
+                            isActive ? "active-link" : "link"} to="/blog">Blog</NavLink>
+                            <NavLink className={({isActive}) =>
+                            isActive ? "active-link" : "link"} to="/login">Login</NavLink>
+                            <NavLink className={({isActive}) =>
+                            isActive ? "active-link" : "link"} to="/register">Sign up</NavLink>
+                        </Nav>
                 </Container>
             </Navbar>
             </>

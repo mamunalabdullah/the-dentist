@@ -1,22 +1,33 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './Signin.css';
 
 const Signin = () => {
+    const emailRef = useRef('');
+    const passwordRef = useRef('');
+
+    const handleSignin = event => {
+        event.preventDefault();
+        const email = emailRef.current.value;
+        const password = passwordRef.current.value;
+
+        console.log(email, password);
+    }
+
     return (
         <div>
            <div className='auth-form-container '>
             <div className='auth-form'>
                 <h1 className='py-2'>Sign in Here</h1>
-                <form>
+                <form onSubmit={handleSignin}>
                     <div className='input-field'>
                         <div className='input-wrapper'>
-                        <input type='text' name='email' id='email' placeholder='Enter your email' />
+                        <input ref={emailRef} type='email' name='email' id='email' placeholder='Enter your email' required/>
                         </div>
                     </div>
                     <div className='input-field'>
                         <div className='input-wrapper'>
-                            <input type='password' name='password' id='password' placeholder='Enter your password'/>
+                            <input ref={passwordRef} type='password' name='password' id='password' placeholder='Enter your password' required/>
                         </div>
                     </div>
                     <button type='submit' className='auth-form-submit'>
