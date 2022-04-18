@@ -7,7 +7,7 @@ const Checkout = () => {
 
     const handleCheckout = event => {
         event.preventDefault();
-        toast("It's Done");
+        toast("thank you for the booking.");
     }
 
     return (

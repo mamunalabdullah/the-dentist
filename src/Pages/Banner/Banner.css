@@ -1,19 +1,18 @@
 .banner{
     background: url('../../Assets/images/female-dentist.jpg');
     background-size: cover;
+    background-repeat: no-repeat;
     height: 100vh;
+    position: relative;
 }
 .banner-title{
+    margin-left: 25px;
     font-size: 35px;
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    transform: translate(-50%, -20%);
 }
 .banner p{
     margin-left: 15px;
-}
-.banner h1{
-    background-color: #fdfdfc6b;
-    margin-top: 75px;
-    margin-left: 25px;
-}
-.colorful{
-    color: #FE8686;
 }

@@ -101,7 +101,7 @@ const Signin = () => {
                 </p>
                 <p className='redirect'>
                     Forget Password ? 
-                    <button className='reset bg-primary' onClick={resetPassword}> Reset Password</button>
+                    <button className='reset' onClick={resetPassword}> Reset Password</button>
                 </p>
                 <div className='horizontal-divider'>
                     <div className='line-left' />
