@@ -1,17 +1,49 @@
-import React, { useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { useRef } from 'react';
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import auth from '../../Firebase/firebase.init';
 import './Signin.css';
 
 const Signin = () => {
+
+    // google authentication///////////////////////////////////////
+    const provider = new GoogleAuthProvider();
+    const handleGoogle = () => {
+        console.log("working");
+        signInWithPopup(auth, provider)
+        .then((result) => {
+            const user = result.user;
+            console.log(user);
+          }).catch((error) => {
+            console.error('error', error);
+          });
+    }
+    /////////////////////////////////////////////////////////////////////////
+    const [
+        signInWithEmailAndPassword,
+        user,
+        loading,
+        error,
+      ] = useSignInWithEmailAndPassword(auth);
+      const navigate = useNavigate();
+
     const emailRef = useRef('');
     const passwordRef = useRef('');
+    const location = useLocation();
+    let from = location.state?.from?.pathname || "/";
+
+    if (user) {
+        navigate(from, {replace: true});
+    }
 
     const handleSignin = event => {
         event.preventDefault();
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
 
-        console.log(email, password);
+        signInWithEmailAndPassword(email, password);
+
     }
 
     return (
@@ -44,7 +76,7 @@ const Signin = () => {
                     <div className='line-right' />
                 </div>
                 <div className='input-wrapper'>
-                    <button className='google-auth'>
+                    <button className='google-auth' onClick={handleGoogle}>
                         <p>Continue with Google</p>
                     </button>
                 </div>

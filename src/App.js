@@ -10,6 +10,7 @@ import Footer from './Pages/Footer/Footer';
 import Signin from './Pages/Signin/Signin';
 import Signup from './Pages/Signup/Signup';
 import Checkout from './Pages/Checkout/Checkout';
+import RequireAuth from './Pages/RequireAuth/RequireAuth';
 
 function App() {
   return (
@@ -23,7 +24,11 @@ function App() {
         <Route path="/banner" element={<Banner />} />
         <Route path="/login" element={<Signin />} />
         <Route path="/register" element={<Signup />} />
-        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/checkout" element={
+          <RequireAuth>
+            <Checkout />
+          </RequireAuth>
+        } />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
