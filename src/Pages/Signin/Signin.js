@@ -1,40 +1,63 @@
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getRedirectResult, GoogleAuthProvider, signInWithPopup, signInWithRedirect } from 'firebase/auth';
 import { useRef } from 'react';
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useSendPasswordResetEmail, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../Firebase/firebase.init';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './Signin.css';
 
 const Signin = () => {
 
     // google authentication///////////////////////////////////////
+
     const provider = new GoogleAuthProvider();
+    
     const handleGoogle = () => {
-        console.log("working");
+        
         signInWithPopup(auth, provider)
         .then((result) => {
+            
+            const credential = GoogleAuthProvider.credentialFromResult(result);
             const user = result.user;
-            console.log(user);
-          }).catch((error) => {
-            console.error('error', error);
-          });
+            if (user) {
+                navigate(from, {replace: true});
+            }
+            
+        }).catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.email;
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            // ...
+        });
+
     }
     /////////////////////////////////////////////////////////////////////////
+    
+    // email authentication ////////////////////////////////////////////////
     const [
         signInWithEmailAndPassword,
         user,
         loading,
         error,
       ] = useSignInWithEmailAndPassword(auth);
+
+      const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
       const navigate = useNavigate();
 
     const emailRef = useRef('');
     const passwordRef = useRef('');
     const location = useLocation();
     let from = location.state?.from?.pathname || "/";
-
+    let errorElement;
     if (user) {
         navigate(from, {replace: true});
+    }
+    if (error) {
+         errorElement = <p className='text-danger fw-bold'>Error: {error?.message}</p>;  
     }
 
     const handleSignin = event => {
@@ -45,6 +68,12 @@ const Signin = () => {
         signInWithEmailAndPassword(email, password);
 
     }
+    const resetPassword = async() => {
+        const email = emailRef.current.value;
+        await sendPasswordResetEmail(email);
+          toast('Sent email');
+    }
+    /////////////////////////////////////////////////////////////////////////
 
     return (
         <div>
@@ -70,17 +99,23 @@ const Signin = () => {
                     New to this website ? 
                     <Link to="/register" className='account-link'> Create New Account</Link>
                 </p>
+                <p className='redirect'>
+                    Forget Password ? 
+                    <button className='reset bg-primary' onClick={resetPassword}> Reset Password</button>
+                </p>
                 <div className='horizontal-divider'>
                     <div className='line-left' />
                     <p>OR</p>
                     <div className='line-right' />
                 </div>
+                {errorElement}
                 <div className='input-wrapper'>
                     <button className='google-auth' onClick={handleGoogle}>
                         <p>Continue with Google</p>
                     </button>
                 </div>
             </div>
+            <ToastContainer />
         </div> 
         </div>
     );

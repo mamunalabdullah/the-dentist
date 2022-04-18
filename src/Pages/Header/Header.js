@@ -17,7 +17,7 @@ const Header = () => {
             <>
             <Navbar className='navbar py-4 bg-info'>
                 <Container>
-                    <Link className='logo' to="/home">Find The Dantist</Link>
+                    <Link className='logo' to="/home">--The Dantist--</Link>
                         <Nav>
                             <NavLink className={({isActive}) =>
                             isActive ? "active-link" : "link"} to="/home">Home</NavLink>

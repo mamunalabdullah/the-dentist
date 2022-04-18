@@ -1,10 +1,13 @@
 import React from 'react';
 import './Checkout.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Checkout = () => {
 
     const handleCheckout = event => {
         event.preventDefault();
+        toast("It's Done");
     }
 
     return (
@@ -37,6 +40,7 @@ const Checkout = () => {
                             Take Appointment
                         </button>
                 </form>
+                <ToastContainer />
             </div>
         </div> 
         </div>

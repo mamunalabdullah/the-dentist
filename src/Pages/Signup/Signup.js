@@ -1,31 +1,70 @@
+import { GoogleAuthProvider, sendEmailVerification, signInWithPopup } from 'firebase/auth';
 import React from 'react';
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { Link, useNavigate } from 'react-router-dom';
+import { useCreateUserWithEmailAndPassword, useUpdateProfile } from 'react-firebase-hooks/auth';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../Firebase/firebase.init';
 import './Signup.css';
 
 const Signup = () => {
+    // google authentication///////////////////////////////////////
 
+    const provider = new GoogleAuthProvider();
+    const handleGoogle = () => {
+        
+        signInWithPopup(auth, provider)
+        .then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            // ...
+            if (user) {
+                navigate(from, {replace: true});
+            }
+        }).catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.email;
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            // ...
+        });
+
+    }
+    /////////////////////////////////////////////////////////////////////////
+    
+
+    // email authentication  /////////////////////////////
     const [
     createUserWithEmailAndPassword,
     user,
     loading,
     error,
-    ] = useCreateUserWithEmailAndPassword(auth);
+    ] = useCreateUserWithEmailAndPassword(auth, {sendEmailVerification: true});
+
     const navigate = useNavigate()
+    const location = useLocation();
+    let from = location.state?.from?.pathname || "/";
+
+    if (user) {
+        navigate(from, {replace: true});
+    }
 
     const handleSignup = event => {
         event.preventDefault();
         const name = event.target.name.value;
         const email = event.target.email.value;
         const password = event.target.password.value;
+        
 
         createUserWithEmailAndPassword(email, password);
         
     }
-    if(user){
-        navigate("/login");
-    }
+    ////////////////////////////////////////////////////////////////////
+
     return (
         <div>
            <div className='auth-form-container '>
@@ -47,11 +86,6 @@ const Signup = () => {
                             <input type='password' name='password' id='password' placeholder='Enter your password' required/>
                         </div>
                     </div>
-                    <div className='input-field'>
-                        <div className='input-wrapper'>
-                            <input type='password' name='confirm-password' id='confirm-password' placeholder='Confirm your password' required/>
-                        </div>
-                    </div>
                     <button type='submit' className='auth-form-submit'>
                         Register
                     </button>
@@ -66,7 +100,7 @@ const Signup = () => {
                     <div className='line-right' />
                 </div>
                 <div className='input-wrapper'>
-                    <button className='google-auth'>
+                    <button className='google-auth' onClick={handleGoogle}>
                         <p>Continue with Google</p>
                     </button>
                 </div>
